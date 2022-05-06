@@ -1,0 +1,32 @@
+<?php
+/**
+ * @file
+ * Code for the ULF search_settings feature.
+ */
+
+include_once 'ulf_skive_search_settings.features.inc';
+
+/**
+ * Implements hook_default_search_api_index_alter().
+ *
+ * Change the default search api index from features export.
+ */
+function ulf_skive_search_settings_default_search_api_index_alter(&$defaults) {
+  if(isset($defaults['courses'])) {
+    $defaults['courses']->options['search_node_indexes'] = variable_get('search_api_search_node_index_courses', '');
+  }
+  if(isset($defaults['educators'])) {
+    $defaults['educators']->options['search_node_indexes'] = variable_get('search_api_search_node_index_educators', '');
+  }
+  if(isset($defaults['users'])) {
+    $defaults['users']->options['search_node_indexes'] = variable_get('search_api_search_node_index_users', '');
+  }
+}
+
+function ulf_skive_search_settings_default_search_api_server_alter(&$defaults) {
+  if(isset($defaults['search_node'])) {
+    $defaults['search_node']->options['host'] = variable_get('search_api_search_node_host', '');
+    $defaults['search_node']->options['apikey'] = variable_get('search_api_search_node_apikey', '');
+    $defaults['search_node']->options['apikey_readonly'] = variable_get('search_api_search_node_apikey_readonly', '');
+  }
+}
